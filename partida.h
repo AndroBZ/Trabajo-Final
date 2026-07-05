@@ -11,6 +11,12 @@ extern int resultadoRonda;  // 1 = gana jugador, -1 = gana PC, 0 = empate
 extern int puntosJugador;
 extern int puntosPC;
 
+// Carga las 6 imagenes de los elementos. Llamar una sola vez al arrancar el juego
+void cargarImagenesPartida();
+
+// Libera las 6 imagenes de memoria. Llamar una sola vez antes de cerrar el juego
+void descargarImagenesPartida();
+
 // Reinicia el marcador y deja la partida lista para arrancar
 void iniciarPartida();
 

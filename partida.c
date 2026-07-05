@@ -12,6 +12,14 @@ int resultadoRonda = 0;
 int puntosJugador = 0;
 int puntosPC = 0;
 
+// Nombres de archivo de cada imagen, en el mismo orden que nombresElementos
+static const char *archivosImagenes[6] = {
+    "piedra.png", "papel.png", "tijera.png", "fuego.png", "esponja.png", "aire.png"
+};
+
+// Texturas ya cargadas en memoria de video, listas para dibujar
+static Texture2D imagenesElementos[6];
+
 // Tabla de victorias: si tabla[fila][columna] es 1, el elemento "fila" le gana al elemento "columna"
 static int tablaVictorias[6][6] = {
     /*            Piedra Papel Tijera Fuego Esponja Aire */
@@ -28,6 +36,18 @@ static int obtenerResultado(int jugador, int pc) {
     if (jugador == pc) return 0;
     if (tablaVictorias[jugador][pc] == 1) return 1;
     return -1;
+}
+
+void cargarImagenesPartida() {
+    for (int i = 0; i < 6; i++) {
+        imagenesElementos[i] = LoadTexture(archivosImagenes[i]);
+    }
+}
+
+void descargarImagenesPartida() {
+    for (int i = 0; i < 6; i++) {
+        UnloadTexture(imagenesElementos[i]);
+    }
 }
 
 void iniciarPartida() {
@@ -84,8 +104,23 @@ void dibujarPartida(int pantallaAncho) {
         sprintf(lineaJugador, "Vos elegiste: %s", nombresElementos[jugadaJugador]);
         sprintf(lineaPC, "La PC eligio: %s", nombresElementos[jugadaPC]);
 
-        DrawText(lineaJugador, (pantallaAncho/2) - (MeasureText(lineaJugador, 40)/2), 150, 40, DARKGRAY);
-        DrawText(lineaPC, (pantallaAncho/2) - (MeasureText(lineaPC, 40)/2), 210, 40, DARKGRAY);
+        DrawText(lineaJugador, (pantallaAncho/2) - 320, 130, 30, DARKGRAY);
+        DrawText(lineaPC, (pantallaAncho/2) + 40, 130, 30, DARKGRAY);
+
+        // Tamano fijo para las imagenes, asi quedan parejas sin importar el tamano original del png
+        const int tamanoImagen = 150;
+
+        // Imagen de la jugada del jugador, del lado izquierdo
+        Texture2D texturaJugador = imagenesElementos[jugadaJugador];
+        Rectangle origenJugador = {0, 0, (float)texturaJugador.width, (float)texturaJugador.height};
+        Rectangle destinoJugador = {(float)(pantallaAncho/2) - 280, 170, (float)tamanoImagen, (float)tamanoImagen};
+        DrawTexturePro(texturaJugador, origenJugador, destinoJugador, (Vector2){0, 0}, 0.0f, WHITE);
+
+        // Imagen de la jugada de la PC, del lado derecho
+        Texture2D texturaPC = imagenesElementos[jugadaPC];
+        Rectangle origenPC = {0, 0, (float)texturaPC.width, (float)texturaPC.height};
+        Rectangle destinoPC = {(float)(pantallaAncho/2) + 80, 170, (float)tamanoImagen, (float)tamanoImagen};
+        DrawTexturePro(texturaPC, origenPC, destinoPC, (Vector2){0, 0}, 0.0f, WHITE);
 
         const char *textoResultado;
         Color colorResultado;
@@ -99,11 +134,11 @@ void dibujarPartida(int pantallaAncho) {
             textoResultado = "EMPATE";
             colorResultado = GRAY;
         }
-        DrawText(textoResultado, (pantallaAncho/2) - (MeasureText(textoResultado, 45)/2), 300, 45, colorResultado);
+        DrawText(textoResultado, (pantallaAncho/2) - (MeasureText(textoResultado, 45)/2), 350, 45, colorResultado);
 
         char marcador[50];
         sprintf(marcador, "Puntos -> Vos: %d   PC: %d", puntosJugador, puntosPC);
-        DrawText(marcador, (pantallaAncho/2) - (MeasureText(marcador, 30)/2), 380, 30, BLUE);
+        DrawText(marcador, (pantallaAncho/2) - (MeasureText(marcador, 30)/2), 420, 30, BLUE);
 
         const char *ayuda = "ENTER para jugar de nuevo, BACKSPACE para volver al menu";
         DrawText(ayuda, (pantallaAncho/2) - (MeasureText(ayuda, 20)/2), 600, 20, MAROON);
