@@ -20,6 +20,10 @@ static const char *archivosImagenes[6] = {
 // Texturas ya cargadas en memoria de video, listas para dibujar
 static Texture2D imagenesElementos[6];
 
+// Sonidos cortos que se reproducen una vez al terminar cada ronda
+static Sound sonidoVictoria;
+static Sound sonidoDerrota;
+
 // Tabla de victorias: si tabla[fila][columna] es 1, el elemento "fila" le gana al elemento "columna"
 static int tablaVictorias[6][6] = {
     /*            Piedra Papel Tijera Fuego Esponja Aire */
@@ -50,6 +54,16 @@ void descargarImagenesPartida() {
     }
 }
 
+void cargarSonidosPartida() {
+    sonidoVictoria = LoadSound("victoria.wav");
+    sonidoDerrota = LoadSound("derrota.wav");
+}
+
+void descargarSonidosPartida() {
+    UnloadSound(sonidoVictoria);
+    UnloadSound(sonidoDerrota);
+}
+
 void iniciarPartida() {
     puntosJugador = 0;
     puntosPC = 0;
@@ -69,8 +83,14 @@ int actualizarPartida() {
         if (jugadaJugador != -1) {
             jugadaPC = GetRandomValue(0, 5);
             resultadoRonda = obtenerResultado(jugadaJugador, jugadaPC);
-            if (resultadoRonda == 1) puntosJugador++;
-            if (resultadoRonda == -1) puntosPC++;
+            if (resultadoRonda == 1) {
+                puntosJugador++;
+                PlaySound(sonidoVictoria);
+            }
+            if (resultadoRonda == -1) {
+                puntosPC++;
+                PlaySound(sonidoDerrota);
+            }
         }
     }
     else {

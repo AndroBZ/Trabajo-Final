@@ -17,6 +17,12 @@ void cargarImagenesPartida();
 // Libera las 6 imagenes de memoria. Llamar una sola vez antes de cerrar el juego
 void descargarImagenesPartida();
 
+// Carga los sonidos de victoria y derrota. Llamar una sola vez al arrancar el juego
+void cargarSonidosPartida();
+
+// Libera los sonidos de memoria. Llamar una sola vez antes de cerrar el juego
+void descargarSonidosPartida();
+
 // Reinicia el marcador y deja la partida lista para arrancar
 void iniciarPartida();
 

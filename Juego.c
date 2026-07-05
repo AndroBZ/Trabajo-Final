@@ -15,6 +15,9 @@ int main() {
     Music musica = LoadMusicStream("Your Biggest Nightmare Three.ogg");
     PlayMusicStream(musica);
 
+    cargarImagenesPartida();
+    cargarSonidosPartida();
+
     Pantalla pantallaActual = MENU;
     const char *opcionesMenu[3] = {"Nueva Partida", "Opciones", "Salir"};
     int opcionSeleccionada = 0;
@@ -86,6 +89,8 @@ int main() {
         EndDrawing();
     }
 
+    descargarImagenesPartida();
+    descargarSonidosPartida();
     UnloadMusicStream(musica);
     CloseAudioDevice();
     CloseWindow();
