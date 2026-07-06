@@ -38,14 +38,6 @@ El programa incluye:
 
 ## Compilación
 
-Si se dispone de un Makefile:
-
-```bash
-make
-```
-
-En caso contrario:
-
 ```bash
 gcc Juego.c partida.c -o juego $(pkg-config --libs --cflags raylib)
 ```
