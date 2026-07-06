@@ -57,7 +57,6 @@ gcc juego.c partida.c -o juego $(pkg-config --libs --cflags raylib)
 
 ## Autores
 Proyecto desarrollado por:
-
-- Gael
-- Oriana Mora López
-- Harim Méndez Gómez
+- Gael Brenes Zúñia C31328
+- Oriana Mora López B75079
+- Harim Méndez Gómez C24744
