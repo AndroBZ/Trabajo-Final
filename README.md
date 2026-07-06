@@ -39,7 +39,7 @@ El programa incluye:
 ## Compilación
 
 ```bash
-gcc Juego.c partida.c -o juego $(pkg-config --libs --cflags raylib)
+gcc juego.c partida.c -o juego $(pkg-config --libs --cflags raylib)
 ```
 
 ## Ejecución
